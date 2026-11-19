@@ -28,11 +28,13 @@ no NetworkManager/PipeWire/BlueZ). Everything below says exactly which environme
 | Hotkey: `omamako toggle` over D-Bus, `--daemon`, `quit` | works | installed copy under `dbus-run-session` + Xvfb: shown / hidden / shown / clean exit |
 | Hotkey install into Hyprland/Sway/i3 config and removal | works on test files | config left byte-identical after `remove`; not loaded by a real compositor |
 | Packaging: wheel build, install to destdir, PKGBUILD `prepare/build/check/package` | works | PKGBUILD functions run in bash with `srcdir/pkgdir`; wheel has 23 themes; installed CLI runs |
-| **`makepkg -si` itself** | **NOT RUN** | no `makepkg` on Ubuntu; building it from source was started but the package mirror was too slow to finish |
+| `makepkg` from a clean clone | works | real `makepkg` 6.1.0 (built from source on the Ubuntu host), run as a non-root user with `--nodeps`; `check()` passed, `omamako-0.1.0-1-any.pkg.tar.gz` produced with correct `.PKGINFO` (deps, optdepends, licenses) and `.INSTALL` |
+| Install / query / remove the built package | works | real pacman 6.1.0 into a scratch root (`-U -dd --noscriptlet`): 119 files, installed CLI ran, `-Rns` left 0 files. Scriptlets (`.install` hooks) were **not** executed |
+| **`makepkg -si` with real dependency resolution** | **NOT RUN** | needs Arch repos (`gtk4`, `python-gobject`, `polkit`, …) and root `pacman -U`; `--nodeps`/`-dd` used instead |
 | Installed `.desktop`, systemd units, `/etc/skel` config | files verified present | not loaded by systemd/desktop environment |
 
 ## Known issues / limits
-* **Unverified on Arch:** `makepkg -si`, real polkit prompt (needs a running polkit agent), real AUR helpers
+* **Unverified on Arch:** dependency resolution during `makepkg -si`, the `.install` scriptlets, real polkit prompt (needs a running polkit agent), real AUR helpers
   (`--sudo pkexec` is an option of paru/yay as I know it), `gtk4-layer-shell` overlay (needs an actual Wayland session;
   if it misbehaves set `launcher.layer_shell = false` or run with `OMAMAKO_NO_LAYER=1`).
 * Without layer-shell, Hyprland/Sway/i3 tile the window; add a floating rule (see `INSTALL.md`; Hyprland rule syntax depends on version).

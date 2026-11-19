@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,7 +8,8 @@ version = "0.1.0"
 description = "Minimal launcher and system menu for Arch Linux (GTK4)"
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "GPL-3.0-or-later" }
+license = "GPL-3.0-or-later AND MIT"
+license-files = ["LICENSE", "LICENSE.omalauncher-MIT", "THIRD_PARTY.md"]
 dependencies = []          # backend is stdlib only; the UI needs python-gobject (system package)
 
 [project.scripts]
