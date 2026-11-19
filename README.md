@@ -13,6 +13,14 @@ neither upstream can run on a desktop as-is (see `ANALYSIS.md`):
 
 Thank you to both projects. Licences: see `LICENSE` (GPL-3.0), `LICENSE.omalauncher-MIT`, `THIRD_PARTY.md`.
 
+## Screenshots
+
+![Overview: home, power, packages, package search, install log, themes](docs/screenshots-overview.png)
+
+All menus are in [`docs/screenshots/`](docs/screenshots/) (regenerate with
+`OMAMAKO_SHOTS=docs/screenshots xvfb-run -s "-screen 0 640x720x24" python3 -m unittest discover -s tests -p test_ui.py`).
+These were captured from the real GTK window under Xvfb with stub system tools, so network/Bluetooth/package data is sample data.
+
 ## What it does
 
 | Menu | Contents |
