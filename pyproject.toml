@@ -17,7 +17,7 @@ omamako = "omamako.ui.app:main"
 omamako-ctl = "omamako.cli:main"
 
 [tool.setuptools]
-packages = ["omamako", "omamako.ui"]
+packages = ["omamako", "omamako.ui", "omamako.data", "omamako.data.themes"]
 
 [tool.setuptools.package-data]
-omamako = ["data/themes/*.toml"]
+"omamako.data.themes" = ["*.toml"]
