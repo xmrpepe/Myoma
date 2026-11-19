@@ -31,7 +31,9 @@ def snippet(comp: str) -> str:
         return f"bind = {mod}, {key}, exec, {CMD}\n"
     if comp in ("sway", "i3"):
         m = "+".join(SWAY_MODS.get(p.strip().upper(), p.strip()) for p in mod.replace(",", "+").split("+") if p.strip())
-        return f"bindsym {m}+{key} exec {CMD}\n"
+        rule = ('for_window [app_id="dev.omamako.Launcher"] floating enable, border none, '
+                'move position center\n') if comp == "sway" else ""
+        return f"bindsym {m}+{key} exec {CMD}\n{rule}"
     # X11 without i3: generic sxhkd syntax
     return f"{mod.lower()} + {key}\n    {CMD}\n"
 

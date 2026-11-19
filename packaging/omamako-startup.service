@@ -1,0 +1,14 @@
+[Unit]
+Description=Start the apps listed under [startup] in ~/.config/omamako/config.toml
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+# Launched apps are detached; keep them alive after this oneshot finishes.
+KillMode=process
+ExecStart=/usr/bin/omamako-ctl apps startup-run
+
+[Install]
+WantedBy=graphical-session.target

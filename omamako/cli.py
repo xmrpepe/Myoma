@@ -89,6 +89,9 @@ def build_parser() -> argparse.ArgumentParser:
     for verb in ("show", "install", "remove"):
         x = h.add_parser(verb); x.add_argument("--compositor")
 
+    cl = sub.add_parser("cleanup", help="remove per-user changes before uninstalling the package")
+    cl.add_argument("--purge", action="store_true", help="also delete ~/.config/omamako and saved state")
+
     sub.add_parser("doctor")
     return p
 
@@ -231,6 +234,22 @@ def dispatch(a: argparse.Namespace) -> int:
             out({a.key: config.set_value(a.key, a.value)})
     elif g == "hotkey":
         out(getattr(hotkey, v)(a.compositor))
+    elif g == "cleanup":
+        import shutil
+        from .util import config_dir, state_dir
+        removed = []
+        for comp in ("hyprland", "sway", "i3"):
+            try:
+                if hotkey.remove(comp)["removed"]:
+                    removed.append(f"hotkey binding ({comp})")
+            except (ValueError, OSError):
+                pass
+        if a.purge:
+            for d in (config_dir(), state_dir()):
+                if d.exists():
+                    shutil.rmtree(d)
+                    removed.append(str(d))
+        out({"removed": removed, "hint": "now run: sudo pacman -Rns omamako"})
     elif g == "doctor":
         tools = ["pacman", "paru", "yay", "pkexec", "checkupdates", "nmcli", "wpctl", "pactl",
                  "bluetoothctl", "brightnessctl", "hyprctl", "swaymsg", "xrandr", "systemctl", "loginctl"]

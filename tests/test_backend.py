@@ -325,7 +325,9 @@ class TestConfigThemesHotkey(Base):
         self.assertEqual(hotkey.snippet("hyprland"), "bind = SUPER, space, exec, omamako toggle\n")
         config.set_value("hotkey.mod", "SUPER+SHIFT")
         config.set_value("hotkey.key", "d")
-        self.assertEqual(hotkey.snippet("sway"), "bindsym Mod4+Shift+d exec omamako toggle\n")
+        self.assertTrue(hotkey.snippet("sway").startswith("bindsym Mod4+Shift+d exec omamako toggle\n"))
+        self.assertIn("dev.omamako.Launcher", hotkey.snippet("sway"))
+        self.assertEqual(hotkey.snippet("i3"), "bindsym Mod4+Shift+d exec omamako toggle\n")
         hotkey.install("hyprland"); hotkey.install("hyprland")
         self.assertEqual(main.read_text().count(hotkey.MARK_BEGIN), 1)
         self.assertTrue(main.read_text().startswith("monitor=,preferred,auto,1"))
@@ -354,6 +356,16 @@ class TestCli(Base):
         code, [t] = self.ctl("theme", "set", "nord"); self.assertEqual(t["theme"], "nord")
         code, [e] = self.ctl("theme", "set", "bogus"); self.assertEqual(code, 1)
         code, [d] = self.ctl("doctor"); self.assertTrue(d["tools"]["pacman"])
+
+    def test_cleanup(self):
+        main = self.t / "home/.config/hypr/hyprland.conf"
+        main.parent.mkdir(parents=True); main.write_text("x\n")
+        hotkey.install("hyprland"); config.ensure_default()
+        code, [r] = self.ctl("cleanup", "--purge")
+        self.assertEqual(code, 0)
+        self.assertEqual(main.read_text(), "x\n")
+        self.assertFalse(config.config_path().exists())
+        self.assertTrue(any("hotkey" in x for x in r["removed"]))
 
     def test_pkg_install_ndjson(self):
         code, lines = self.ctl("pkg", "install", "git")

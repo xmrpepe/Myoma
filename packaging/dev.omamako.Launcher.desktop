@@ -1,0 +1,20 @@
+[Desktop Entry]
+Type=Application
+Name=Omamako
+GenericName=Application Launcher
+Comment=Minimal launcher with system and package menus
+Exec=omamako
+Icon=dev.omamako.Launcher
+Terminal=false
+Categories=Utility;System;
+Keywords=launcher;menu;power;packages;pacman;
+StartupNotify=false
+Actions=Toggle;Quit;
+
+[Desktop Action Toggle]
+Name=Toggle launcher
+Exec=omamako toggle
+
+[Desktop Action Quit]
+Name=Quit daemon
+Exec=omamako quit
