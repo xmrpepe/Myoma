@@ -19,6 +19,7 @@ DEFAULTS: dict[str, Any] = {
         "font_size": 16,
         "max_recents": 8,
         "show_clock": True,
+        "layer_shell": True,     # use gtk4-layer-shell on Wayland when installed
         "clock_format": "%H:%M",
         "date_format": "%A, %d %B",
     },

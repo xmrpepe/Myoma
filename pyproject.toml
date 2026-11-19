@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "omamako"
+version = "0.1.0"
+description = "Minimal launcher and system menu for Arch Linux (GTK4)"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "GPL-3.0-or-later" }
+dependencies = []          # backend is stdlib only; the UI needs python-gobject (system package)
+
+[project.scripts]
+omamako = "omamako.ui.app:main"
+omamako-ctl = "omamako.cli:main"
+
+[tool.setuptools]
+packages = ["omamako", "omamako.ui"]
+
+[tool.setuptools.package-data]
+omamako = ["data/themes/*.toml"]

@@ -71,6 +71,8 @@ window.omamako, window.omamako .root {{ background-color: {bg}; color: {fg}; }}
 .omamako button {{ background: {theme.get('lighter_background', sel)}; color: {fg};
     border: none; box-shadow: none; border-radius: 6px; padding: 6px 12px; }}
 .omamako button:hover {{ background: {sel}; }}
+.omamako textview, .omamako textview text {{ background-color: {theme.get('darker_background', bg)};
+    color: {fg}; border-radius: 6px; padding: 4px; }}
 .omamako .danger {{ color: {red}; }}
 .omamako .ok {{ color: {green}; }}
 .omamako .offline {{ background: {red}; color: {bg}; padding: 4px 10px; border-radius: 6px; }}
