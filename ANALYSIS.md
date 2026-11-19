@@ -59,9 +59,9 @@ Omarchy themes and Arch-focus (pacman + AUR) as inputs.
 
 ```
  omamako (GTK4 frontend, python-gobject)         <- UI only, mako-style
-        │  spawns, reads JSON / NDJSON on stdout
+        │  imports the library directly (worker threads)
         ▼
- omamako-ctl (CLI)  ──►  omamako_core (stdlib-only Python library)
+ omamako-ctl (JSON CLI, the public interface)  ──►  omamako library (stdlib only)
                            apps · history · system · packages
                            network · themes · config · hotkey
                            │
