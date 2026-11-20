@@ -1,0 +1,18 @@
+[Unit]
+Description=omamako launcher (resident, for instant open)
+Documentation=file:///usr/share/doc/omamako/INSTALL.md
+PartOf=graphical-session.target
+After=graphical-session.target
+
+# Deliberately no sandboxing: no PrivateNetwork=, IPAddressDeny=, ProtectHome=, etc.
+# The launcher starts arbitrary user programs and talks to the internet
+# (package servers, AUR), so it must run with the user's normal privileges.
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/omamako --daemon
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=graphical-session.target

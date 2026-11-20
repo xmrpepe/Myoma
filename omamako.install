@@ -1,0 +1,24 @@
+post_install() {
+  echo ">> omamako installed."
+  echo "   Start:   omamako            (or bind a key: omamako-ctl hotkey install)"
+  echo "   Daemon:  systemctl --user enable --now omamako.service   (fast open, startup apps)"
+  echo "   Docs:    /usr/share/doc/omamako/INSTALL.md"
+  echo "   Package changes need a polkit agent (hyprpolkitagent or polkit-gnome) running."
+}
+
+post_upgrade() {
+  echo ">> omamako upgraded. Restart the daemon if running: systemctl --user restart omamako.service"
+}
+
+pre_remove() {
+  # Stop the user unit for everyone who has it enabled globally; per-user enables
+  # are cleaned up by the user with the command below.
+  systemctl --global disable omamako.service omamako-startup.service >/dev/null 2>&1 || true
+}
+
+post_remove() {
+  echo ">> omamako removed. Per-user leftovers (hotkey include lines, config, favorites) are untouched."
+  echo "   Before removing, 'omamako-ctl cleanup [--purge]' deletes them."
+  echo "   Afterwards: remove any 'omamako' lines from your compositor config, and"
+  echo "   'systemctl --user disable omamako.service' if you enabled it per-user."
+}
